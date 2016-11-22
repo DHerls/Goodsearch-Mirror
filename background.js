@@ -1,7 +1,7 @@
 var redirectUrl;
 
 function search(url){
-	
+
 	google_reg = /www.google.com\/(?:search|webhp|)(?:[\w\d.&\?=#+\-]*)\b#?q=((?:[\w%.]+\+?)+)/gi;
 	bing_reg = /www.bing.com\/search(?:[\w\d.&\?=#+\-]*)\?q=((?:[\w%.]+\+?)+)/gi;
 	yahoo_reg = /search.yahoo.com\/search;?(?:[\w\d.&\?=#+\-]*)(?:\?|&)p=((?:[\w%.]+\+?)+)/gi;
@@ -20,7 +20,7 @@ function search(url){
 	} else {
 		return;
 	}
-	
+
 	m = reg.exec(url);
 	if (m){
 		search_string = m[1].replace("%20","+");
@@ -28,7 +28,7 @@ function search(url){
 		tabs = chrome.tabs.query({url: '*://*.goodsearch.com/*'}, updateTabs);
 	}
 
-	
+
 }
 
 function cookieChecker(cookie){
@@ -39,12 +39,21 @@ function cookieChecker(cookie){
 }
 
 function updateTabs(array){
+
+
 	if (array.length > 0){
 		if (array[0].url != redirectUrl){
 			chrome.tabs.update(array[0].id,{url: redirectUrl});
 		}
 	} else {
-		chrome.tabs.create({url: redirectUrl, active: false});
+		chrome.windows.getCurrent(function(window) {
+			if (window.state == "fullscreen") {
+				chrome.tabs.create({url: redirectUrl, active: false});
+			} else {
+				chrome.windows.create({url: redirectUrl, state: "minimized"});
+
+			}
+		});
 	}
 }
 
@@ -52,11 +61,11 @@ function updateTabs(array){
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     if (changeInfo.url){
 		search(changeInfo.url);
-		
+
 	}
 });
 
-chrome.tabs.onCreated.addListener(function(tab) {         
+chrome.tabs.onCreated.addListener(function(tab) {
    search(tab.url);
 });
 

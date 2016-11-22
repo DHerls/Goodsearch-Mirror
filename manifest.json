@@ -4,7 +4,7 @@
   "name": "Springfield Search FTK",
   "description": "Help raise money FTK through GoodSearch",
   "author": "DJHerls",
-  "version": "1.3.2",
+  "version": "1.4.1",
   
   "browser_action": {
     "default_icon": "icons/springfield_32.png"
