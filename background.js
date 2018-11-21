@@ -70,10 +70,10 @@ chrome.tabs.onCreated.addListener(function(tab) {
 });
 
 chrome.runtime.onInstalled.addListener(function(details){
-    chrome.cookies.get({url: "https://www.goodsearch.com/", name: "gmui"}, cookieChecker);
+    chrome.cookies.get({url: "https://www.goodsearch.com/", name: "member_cause_id"}, cookieChecker);
 
 });
 
 chrome.runtime.onStartup.addListener(function(details){
-    chrome.cookies.get({url: "https://www.goodsearch.com/", name: "gmui"}, cookieChecker);
+    chrome.cookies.get({url: "https://www.goodsearch.com/", name: "member_cause_id"}, cookieChecker);
 });
